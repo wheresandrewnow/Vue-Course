@@ -1,11 +1,11 @@
+let url = 'https://vue3-course-api.hexschool.io';
+let path = 'wheresandrewnow';
 let productModal = {};
 let delProductModal = {};
 
 Vue.createApp({
     data() { // 資料
         return {
-            url: 'https://vue3-course-api.hexschool.io',
-            path: 'wheresandrewnow',
             productList: [],
             tempProduct: {
                 imagesUrl: [],
@@ -31,7 +31,7 @@ Vue.createApp({
     methods: { // 方法
         // 取得資料
         getData() {
-            axios.get(`${this.url}/api/${this.path}/admin/products`)
+            axios.get(`${url}/api/${path}/admin/products`)
             .then(res => {
                 console.log(res);
                 if(res.data.success) {
@@ -47,11 +47,15 @@ Vue.createApp({
         // 新增 & 更改資料
         addressData() {
             // 新增
+            let method;
+            const addProduct = {
+                data: this.tempProduct,
+            }
+
             if(this.tempProduct.id === undefined) {
-                const addProduct = {
-                    data: this.tempProduct,
-                }
-                axios.post(`${this.url}/api/${this.path}/admin/product`, addProduct)
+                method = 'post';
+                link = `${url}/api/${path}/admin/product`;
+                axios[method](link, addProduct)
                 .then(res => {
                     if(res.data.success) {
                         alert(res.data.message);
@@ -66,10 +70,10 @@ Vue.createApp({
                 })
             }else { // 更改
                 const id = this.tempProduct.id;
-                const editProduct = {
-                    data: this.tempProduct,
-                }
-                axios.put(`${this.url}/api/${this.path}/admin/product/${id}`, editProduct)
+                method = 'put';
+                link = `${url}/api/${path}/admin/product/${id}`;
+
+                axios[method](link, addProduct)
                 .then(res => {
                     if(res.data.success) {
                         alert(res.data.message);
@@ -87,7 +91,7 @@ Vue.createApp({
         // 刪除資料
         deleteData() {
             const id = this.tempProduct.id;
-            axios.delete(`${this.url}/api/${this.path}/admin/product/${id}`)
+            axios.delete(`${url}/api/${path}/admin/product/${id}`)
             .then(res => {
                 if(res.data.success) {
                     alert(res.data.message);
